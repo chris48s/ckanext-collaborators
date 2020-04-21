@@ -79,5 +79,7 @@ def package_update(next_auth, context, data_dict):
     datasets = toolkit.get_action(
         'dataset_collaborator_list_for_user')(
             context, {'id': user_name, 'capacity': 'editor'})
-    return {
-        'success': dataset.id in [d['dataset_id'] for d in datasets]}
+
+    if not dataset.id in [d['dataset_id'] for d in datasets]:
+        return {'success': False}
+    return next_auth(context, data_dict)
