@@ -65,10 +65,8 @@ def dataset_collaborator_list_for_user(context, data_dict):
     return {'success': False}
 
 
-# Core overrides
-# TODO: remove the direct core import and use the chained_auth_function
-# decorator once #4248 et al are backported into 2.8
-def package_update(context, data_dict):
+@toolkit.chained_auth_function
+def package_update(next_auth, context, data_dict):
 
     result = core_package_update(context, data_dict)
 
